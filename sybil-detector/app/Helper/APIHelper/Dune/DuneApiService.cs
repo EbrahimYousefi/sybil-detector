@@ -19,7 +19,7 @@ namespace SybilDetection.UI.Helper.APIHelper.Dune
         public async Task FetchAndSaveScrollAirdropStatusDataAsync()
         {
             string apiUrl = "https://api.dune.com/api/v1/query/4760739/results?limit=1000";
-            string apiKey = "Y6ddrkhkiMq7FxVRv0b32gXlpLYAtk40";
+            string apiKey = "";
 
             try
             {
