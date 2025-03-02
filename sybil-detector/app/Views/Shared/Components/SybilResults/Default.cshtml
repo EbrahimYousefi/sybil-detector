@@ -1,0 +1,112 @@
+﻿@model SybilCheckerInsightsViewModel
+
+<div class="card group col-span-12 lg:col-span-4">
+    <div class="justify-top p-4">
+        <div class="col-span-12 sm:col-span-7 lg:col-span-8 xl:col-span-7">
+            <div class="my-3 flex items-center justify-between px-4">
+                <h2 class="text-xl font-semibold text-slate-700 dark:text-navy-100">
+                    Sybil Checker Insights
+                </h2>
+            </div>
+        </div>
+
+        <div class="order-first col-span-12 grid grid-cols-2 gap-4 sm:order-none sm:gap-5 lg:col-span-5 lg:gap-6 mt-5">
+            <div class="order-first col-span-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:order-none lg:col-span-6 lg:gap-6">
+                <div class="card justify-between p-5 rounded-lg bg-slate-100 p-3 dark:bg-navy-600">
+                    <p class="font-medium">Total Clusters Found</p>
+                    <div class="flex items-center justify-between pt-4">
+                        <p class="text-3xl font-semibold text-slate-700 dark:text-navy-100">
+                            @Model.TotalCluster+
+                        </p>
+                        <svg class="h-10 w-10 text-primary dark:text-accent" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="currentColor" fill-rule="evenodd" d="M8 0a2.25 2.25 0 00-.75 4.372v.465a3.25 3.25 0 00-1.797 1.144l-.625-.366a2.25 2.25 0 10-1.038 1.13l1.026.602a3.261 3.261 0 000 1.306l-1.026.601a2.25 2.25 0 101.038 1.13l.625-.366a3.25 3.25 0 001.797 1.145v.465a2.25 2.25 0 101.5 0v-.465a3.25 3.25 0 001.797-1.145l.625.366a2.25 2.25 0 101.038-1.13l-1.026-.6a3.26 3.26 0 000-1.307l1.026-.601a2.25 2.25 0 10-1.038-1.13l-.625.365A3.251 3.251 0 008.75 4.837v-.465A2.25 2.25 0 008 0zm-.75 2.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM2.75 4a.75.75 0 100 1.5.75.75 0 000-1.5zm0 6.5a.75.75 0 100 1.5.75.75 0 000-1.5zm4.5 3.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zm6-3.25a.75.75 0 100 1.5.75.75 0 000-1.5zm0-6.5a.75.75 0 100 1.5.75.75 0 000-1.5zM6.395 7.3a1.75 1.75 0 113.21 1.4 1.75 1.75 0 01-3.21-1.4z" clip-rule="evenodd"></path></g></svg>
+                    </div>
+                </div>
+                <div class="card justify-between p-5 rounded-lg bg-slate-100 p-3 dark:bg-navy-600">
+                    <p class="font-medium">Total Checked Addresses</p>
+                    <div class="flex items-center justify-between pt-4">
+                        <p class="text-3xl font-semibold text-slate-700 dark:text-navy-100">
+                            @Model.TotalAddress+
+                        </p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-secondary dark:text-secondary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="order-first col-span-12 grid grid-cols-1 gap-4 sm:order-none sm:gap-5 lg:col-span-5 lg:gap-6 mt-5">
+            <div class="card justify-between p-5 rounded-lg bg-slate-100 p-3 dark:bg-navy-600">
+                <p class="font-medium">Average Sybil Score of Clusters</p>
+                <div class="flex items-center justify-between pt-4">
+                    <p class="text-3xl font-semibold text-slate-700 dark:text-navy-100">
+                        @Math.Ceiling(Model.AverageSybilScore)
+                    </p>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" /></svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-span-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:col-span-4 lg:grid-cols-1 lg:gap-6 xl:col-span-3">
+            <div class="card pb-5 mt-5 rounded-lg bg-slate-100 p-3 dark:bg-navy-600">
+                <div class="my-3 flex h-8 items-center justify-between px-4 sm:px-5">
+                    <h2 class="text-xl font-semibold text-slate-700 dark:text-navy-100">
+                        Sybil Analytics
+                    </h2>
+                </div>
+
+                <div>
+                    <div id="analytics-chart"></div>
+                </div>
+                <div class="mx-auto mt-3 max-w-xs px-4 text-center text-xs+ sm:px-5">
+                    <p>Sybil Score Results Analytics for Checked Addresses</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener(
+        "app:mounted",
+        function() {
+            var chartLabels = @Html.Raw(Json.Serialize(Model.AddressScorePieResults.Select(x => x.AddressType)));
+            var chatrSeries = @Html.Raw(Json.Serialize(Model.AddressScorePieResults.Select(x => x.NumberOfAddress)));
+            var totalWallets = '194.09K';
+
+            renderSybilCharts(chatrSeries, chartLabels, totalWallets)
+        },
+        { once: !0 }
+    )
+
+    function renderSybilCharts(chatrSeries, chartLabels, total) {
+        var e = {
+            colors: ["#c32f27", "#fe7f2d", "#007200"],
+            series: chatrSeries,
+            chart: { height: 350, type: "radialBar" },
+            plotOptions: {
+                radialBar: {
+                    hollow: { margin: 10, size: "45%" },
+                    track: { margin: 10 },
+                    dataLabels: {
+                        name: { fontSize: "17px" },
+                        value: { fontSize: "17px" },
+                        total: {
+                            show: !0,
+                            label: "Total Addresses",
+                            formatter: function(e) {
+                                return total
+                            },
+                        },
+                    },
+                },
+            },
+            grid: { padding: { top: -20, bottom: -20, right: 0, left: 0 } },
+            stroke: { lineCap: "round" },
+
+            labels: chartLabels,
+        },
+            t = document.querySelector("#analytics-chart");
+        setTimeout(function() {
+            (t._chart = new ApexCharts(t, e)), t._chart.render();
+        });
+    }
+
+</script>

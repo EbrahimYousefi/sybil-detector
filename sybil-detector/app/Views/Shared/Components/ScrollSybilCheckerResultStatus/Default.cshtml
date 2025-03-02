@@ -1,0 +1,575 @@
+﻿@model CheckerResultsViewModel
+
+<div class="mt-5 flex items-center justify-between">
+    <h3 class="text-lg font-medium text-slate-700 line-clamp-1 dark:text-navy-50">
+        Sybil Checker Results
+    </h3>
+    <div class="flex">
+        <a href="https://scrollscan.com/address/@Model.address" target="_blank" class="btn h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" role="none" class="h-5 w-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" role="none"></path><polyline points="15 3 21 3 21 9" role="none"></polyline><line x1="10" y1="14" x2="21" y2="3" role="none"></line></svg>
+        </a>
+        <button id="getAddressContent" class="btn h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"><g id="SVGRepo_bgCarrier"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M17.676 14.248C17.676 15.8651 16.3651 17.176 14.748 17.176H7.428C5.81091 17.176 4.5 15.8651 4.5 14.248V6.928C4.5 5.31091 5.81091 4 7.428 4H14.748C16.3651 4 17.676 5.31091 17.676 6.928V14.248Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M10.252 20H17.572C19.1891 20 20.5 18.689 20.5 17.072V9.75195" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+        </button>
+        <input type="text" id="clipboardAddressContent" hidden="hidden" value="@Model.address" />
+    </div>
+</div>
+
+<div class="mt-4 grid grid-cols-12 gap-4 sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
+    <div class="card col-span-12 pb-4">
+        <div class="mt-3 grid grid-cols-12">
+            <div class="col-span-12 px-4 sm:col-span-6 sm:px-5 lg:col-span-4">
+                <div class="col-span-12 px-4 sm:col-span-6 sm:px-5 lg:col-span-5">
+                    <h2 style="text-align:center" class="text-sm+ font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                        Wallet Sybil Status
+                    </h2>
+                    <div id="wallet-sybil-status-chart" style="min-height: 280px;"></div>
+                </div>
+            </div>
+            <div class="col-span-12 px-4 sm:col-span-6 sm:px-5 lg:col-span-3">
+                <h2 class="text-sm+ font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                    Activity for Scroll Airdrop (Before the Snapshot Date)
+                </h2>
+                <div class="mt-6 grid grid-cols-2 gap-x-4 gap-y-8">
+                    <div>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Current Balance
+                        </p>
+                        <p class="mt-1 text-xl font-medium text-slate-700 dark:text-navy-100">
+                            @Model.scroll_transaction_results.ether_balance.ToString("F5") ETH
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Volume
+                        </p>
+                        <p class="mt-1">
+                            <span class="text-xl font-medium text-slate-700 dark:text-navy-100">
+                                @Model.scroll_transaction_results.total_volume.ToString("F5") ETH
+                            </span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Native Transaction
+                        </p>
+                        <p class="mt-1 text-xl font-medium text-slate-700 dark:text-navy-100">
+                            @Model.scroll_transaction_results.total_transaction
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Wallet Age
+                        </p>
+                        <p class="mt-1 text-xl font-medium text-slate-700 dark:text-navy-100">
+                            @Model.scroll_transaction_results.wallet_age Days
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Unique Days
+                        </p>
+                        <p class="mt-1 text-xl font-medium text-slate-700 dark:text-navy-100">
+                            @Model.scroll_transaction_results.unique_days
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Unique Weeks
+                        </p>
+                        <p class="mt-1 text-xl font-medium text-slate-700 dark:text-navy-100">
+                            @Model.scroll_transaction_results.unique_weeks
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Unique Months
+                        </p>
+                        <p class="mt-1 text-xl font-medium text-slate-700 dark:text-navy-100">
+                            @Model.scroll_transaction_results.unique_months
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Season 1 Marks
+                        </p>
+                        <p class="mt-1 text-xl font-medium text-slate-700 dark:text-navy-100">
+                            @Model.scroll_mark_activity_results.season_1_mark.ToString()
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-12 px-4 sm:col-span-6 sm:px-5 lg:col-span-5">
+                <h2 style="text-align:center" class="text-sm+ font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                    Number of Daily Transaction Over Time
+                </h2>
+
+                <div id="daily-tx-scrol-view-chart" style="min-height: 280px;">
+                    <div class="text-lg font-medium text-slate-700 line-clamp-1 dark:text-navy-50 message-no-graph-transaction" id="message-no-transaction" style="display:none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-span-12 xl:col-span-6">
+        <div class="card">
+            <div class="grid grid-cols-1 divide-y divide-slate-150 dark:divide-navy-500 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+                <div class="p-4 sm:p-5">
+                    <h3 class="font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                        Sybil Result
+                    </h3>
+                    <p class="mt-4">
+                        @if (Model.sybil_results.status == "No Risk")
+                        {
+                            <div class="badge bg-slate-150 text-slate-800"> @Model.sybil_results.status</div>
+                        }
+                        else if (Model.sybil_results.status == "Low-Risk")
+                        {
+                            <div class="badge bg-success text-white"> @Model.sybil_results.status</div>
+                        }
+                        else if (Model.sybil_results.status == "Moderate-Risk")
+                        {
+                            <div class="badge bg-warning text-white"> @Model.sybil_results.status</div>
+                        }
+                        else if (Model.sybil_results.status == "High-Risk")
+                        {
+                            <div class="badge bg-error text-white"> @Model.sybil_results.status</div>
+                        }
+                    </p>
+                    <div class="mt-4 flex justify-between">
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Status
+                        </p>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Result
+                        </p>
+                    </div>
+                    <div class="mt-2 space-y-2.5">
+                        <div class="flex justify-between space-x-2">
+                            <p class="line-clamp-1">Sybil Score</p>
+                            <p class="font-medium text-slate-700 dark:text-navy-100">
+                                @Model.sybil_results.total_sybil_score
+                            </p>
+                        </div>
+                        <div class="flex justify-between space-x-2">
+                            <p class="line-clamp-1">Cluster Size</p>
+                            @if (Model.sybil_results.cluster_size_bulk_transfers != null)
+                            {
+                                <p class="font-medium text-slate-700 dark:text-navy-100">
+                                    @Model.sybil_results.cluster_size_bulk_transfers
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="font-medium text-slate-700 dark:text-navy-100">
+                                    -
+                                </p>
+                            }
+
+                        </div>
+                        <div class="flex justify-between space-x-2">
+                            <p class="line-clamp-1">Cluster Head</p>
+                            @if (Model.sybil_results.cluster_head != null)
+                            {
+                                <p class="font-medium text-slate-700 dark:text-navy-100">
+                                    <a href="https://scrollscan.com/address/@Model.sybil_results.cluster_head" target="_blank">
+                                        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" role="none" class="h-5 w-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" role="none"></path><polyline points="15 3 21 3 21 9" role="none"></polyline><line x1="10" y1="14" x2="21" y2="3" role="none"></line></svg>
+                                    </a>
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="font-medium text-slate-700 dark:text-navy-100">
+                                    -
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 sm:p-5">
+                    <h3 class="font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                        Airdrop Eligibility Status
+                    </h3>
+                    <p class="mt-4">
+                        @if (Model.scroll_airdrop_eligibility_status_results.is_eligible)
+                        {
+                            <div class="badge bg-success text-white">Eligible</div>
+                        }
+                        else
+                        {
+                            <div class="badge bg-error text-white">Not Eligible</div>
+                        }
+                    </p>
+                    <div class="mt-4 flex justify-between">
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Status
+                        </p>
+                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                            Result
+                        </p>
+                    </div>
+                    <div class="mt-2 space-y-2.5">
+                        <div class="flex justify-between space-x-2">
+                            <p class="line-clamp-1">Claimed Amount</p>
+                            <p class="font-medium text-slate-700 dark:text-navy-100">
+                                @Model.scroll_airdrop_eligibility_status_results.amount.ToString("F2") $SRC
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-span-12 xl:col-span-6 mt-5">
+            <div class="-mt-1 flex items-center justify-between">
+                <h2 class="text-sm+ font-medium tracking-wide text-slate-700 line-clamp-1 dark:text-navy-100">
+                    Reasons for Being Sybil
+                </h2>
+            </div>
+            <div class="card mt-3">
+                <div class="is-scrollbar-hidden min-w-full overflow-x-auto">
+                    <table class="is-hoverable w-full text-left">
+                        <thead>
+                            <tr>
+                                <th class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
+                                    Title
+                                </th>
+                                <th class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
+                                    Description
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.sybil_results.sybil_reason_results)
+                            {
+                                <tr class="border-y border-transparent border-b-slate-200 dark:border-b-navy-500">
+                                    <td class="whitespace-nowrap px-4 py-3">
+                                        <p class="text-left text-base font-medium text-slate-700 dark:text-navy-100">
+                                            @item.reason
+                                        </p>
+                                    </td>
+                                    <td class="min-w-[20rem] px-4 py-3 sm:px-5">
+                                        <div class="flex items-center space-x-4">
+                                            <span class="font-medium text-slate-700 line-clamp-2 dark:text-navy-100">
+                                                @item.description
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-span-12 xl:col-span-6">
+        <div class="card col-span-12 sm:col-span-12 lg:col-span-12 xl:col-span-12">
+            <div class="my-3 flex items-center justify-between px-4">
+                <h2 class="font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                    Cluster Graph Overview
+                </h2>
+            </div>
+            <div class="mt-3 px-3">
+                <div id="graph-network-overview-chart" style="min-height: 249px;"></div>
+                <div class="text-lg font-medium text-slate-700 line-clamp-1 dark:text-navy-50 message-no-graph-transaction" id="message-no-graph">No graph exists</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#getAddressContent").click(function() {
+
+            let addressInput = $("#clipboardAddressContent");
+            let address = addressInput.val().trim();
+
+            if (!address) {
+                return;
+            }
+
+            $clipboard({ content: address, success: $notification({ text: "Address Copied", variant: "info", position: 'center-top' }), error: '' });
+        });
+    });
+
+    var darkOrLight = localStorage.getItem("dark-mode");
+
+    var chartLabels = @Html.Raw(Json.Serialize(Model.daily_scroll_transaction_results.Select(x => x.day)));
+    var chatrSeriesTX = @Html.Raw(Json.Serialize(Model.daily_scroll_transaction_results.Select(x => x.total_transaction.ToString())));
+    var chatrSeriesVolume = @Html.Raw(Json.Serialize(Model.daily_scroll_transaction_results.Select(x => x.total_volume.ToString("F5"))));
+
+    var chatrSybilScore = @Model.sybil_results.total_sybil_score;
+
+    var chatrSybilStatus = '@(Model.sybil_results.status)';
+
+    var nodesArray = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.sybil_results.addresses));
+
+    var headAddress = '@(Model.sybil_results.cluster_head)';
+
+    var currentAddress = '@(Model.address)';
+
+    renderDailyCharts(chartLabels, chatrSeriesTX, chatrSeriesVolume)
+
+    renderSybilChart(chatrSybilScore, chatrSybilStatus);
+
+    renderGraphChartV2(nodesArray, headAddress, currentAddress, darkOrLight);
+
+    $("#darkmode-toggle-section-btn").click(function() {
+        darkOrLight = localStorage.getItem("dark-mode");
+        renderGraphChartV2(nodesArray, headAddress, currentAddress, darkOrLight);
+    });
+
+    function renderDailyCharts(chartLabels, chatrSeriesTX, chatrSeriesVolume) {
+
+        if (!Array.isArray(chatrSeriesTX) || chatrSeriesTX.length === 0) {
+            document.getElementById("message-no-transaction").style.display = "block";
+        }
+        else {
+            document.getElementById("message-no-transaction").style.display = "none";
+
+            var options = {
+                series: [{
+                    name: 'Transactions',
+                    data: chatrSeriesTX
+                }],
+                chart: {
+                    height: 350,
+                    type: 'bar',
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 10,
+                        dataLabels: {
+                            position: 'top',
+                        },
+                    }
+                },
+                dataLabels: {
+                    enabled: false,
+                    formatter: function(val) {
+                        return val + "%";
+                    },
+                    offsetY: -20,
+                    style: {
+                        fontSize: '12px',
+                        colors: ["#304758"]
+                    }
+                },
+
+                xaxis: {
+                    categories: chartLabels,
+                    position: 'bottom',
+                    axisBorder: {
+                        show: false
+                    },
+                    axisTicks: {
+                        show: false
+                    },
+                    crosshairs: {
+                        fill: {
+                            type: 'gradient',
+                            gradient: {
+                                colorFrom: '#D8E3F0',
+                                colorTo: '#BED1E6',
+                                stops: [0, 100],
+                                opacityFrom: 0.4,
+                                opacityTo: 0.5,
+                            }
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                    }
+                },
+                yaxis: {
+                    axisBorder: {
+                        show: false
+                    },
+                    axisTicks: {
+                        show: false,
+                    },
+                    labels: {
+                        show: false,
+                        formatter: function(val) {
+                            return val + "";
+                        }
+                    }
+
+                },
+            };
+
+            var chart = new ApexCharts(document.querySelector("#daily-tx-scrol-view-chart"), options);
+            chart.render();
+        }
+    }
+
+    function renderSybilChart(value, chatrSybilStatus) {
+        var seriesValue = parseInt(value);
+
+        var color = '#4B9DD0';
+
+        if (seriesValue > 0) {
+            color = '#007200';
+        }
+        if (seriesValue > 30) {
+            color = '#fe7f2d';
+        }
+        if (seriesValue > 60) {
+            color = '#c32f27';
+        }
+
+        var options = {
+            series: [seriesValue],
+            chart: {
+                height: 350,
+                type: 'radialBar',
+                toolbar: {
+                    show: true
+                }
+            },
+            plotOptions: {
+                radialBar: {
+                    startAngle: -135,
+                    endAngle: 225,
+                    hollow: {
+                        margin: 0,
+                        size: '70%',
+                        image: undefined,
+                        imageOffsetX: 0,
+                        imageOffsetY: 0,
+                        position: 'front',
+                        dropShadow: {
+                            enabled: true,
+                            top: 3,
+                            left: 0,
+                            blur: 4,
+                            opacity: 0.5
+                        }
+                    },
+                    track: {
+                        background: '#fff',
+                        strokeWidth: '67%',
+                        margin: 0,
+                        dropShadow: {
+                            enabled: true,
+                            top: -3,
+                            left: 0,
+                            blur: 4,
+                            opacity: 0.7
+                        }
+                    },
+                    dataLabels: {
+                        show: true,
+                        name: {
+                            offsetY: -10,
+                            show: true,
+                            color: '#888',
+                            fontSize: '17px'
+                        },
+                        value: {
+                            formatter: function(val) {
+                                return parseInt(val);
+                            },
+                            color: '#111',
+                            fontSize: '36px',
+                            show: true,
+                        }
+                    }
+                }
+            },
+            fill: {
+                type: 'solid',
+                colors: [color]
+            },
+            stroke: {
+                lineCap: 'round'
+            },
+            labels: [chatrSybilStatus],
+        };
+
+        var chart = new ApexCharts(document.querySelector("#wallet-sybil-status-chart"), options);
+        chart.render();
+
+    }
+
+    function renderGraphChartV2(fullNodesArray, headNode, currentAddress, darkOrLight) {
+
+        if (!Array.isArray(fullNodesArray) || fullNodesArray.length === 0) {
+            document.getElementById("message-no-graph").style.display = "block";
+        }
+        else {
+            document.getElementById("message-no-graph").style.display = "none";
+
+            var nodes = new vis.DataSet([
+                {
+                    id: "head",
+                    label: headNode.substring(0, 5) + "..." + headNode.slice(-3),
+                    shape: "dot",
+                    color: {
+                        background: '#ffcc00',
+                        border: '#ffcc00'
+                    },
+                    font: { face: 'Roboto', size: 15, color: darkOrLight === 'dark' ? '#c2c9d6' : '#000000' },
+                    size: 15,
+                    title: "Cluster Head"
+                },
+                ...fullNodesArray.map((address, index) => ({
+                    id: index,
+                    label: address.substring(0, 5) + "..." + address.slice(-3),
+                    shape: "dot",
+                    size: (address === currentAddress) ? 15 : 13,
+                    color: (address === currentAddress) ? "#ff4136" : "#007bff",
+                    font: { face: 'Roboto', size: 15, color: darkOrLight === 'dark' ? '#c2c9d6' : '#000000' },
+                    borderWidth: (address === currentAddress) ? 1 : 1,
+                    title: (address === currentAddress) ? "Your Address: " + currentAddress : address
+                }))
+            ]);
+
+            var edges = new vis.DataSet(
+                fullNodesArray.map((node, index) => ({
+                    from: "head",
+                    to: index,
+                    color: "#888",
+                    width: (node === currentAddress) ? 4 : 2,
+                    length: (node === currentAddress) ? 300 : 100,
+                    arrows: "to"
+                }))
+            );
+
+            var container = document.getElementById("graph-network-overview-chart");
+            var data = { nodes: nodes, edges: edges };
+            var options = {
+                nodes: {
+                    borderWidth: 2,
+                    shadow: true
+                },
+                edges: {
+                    smooth: {
+                        type: "dynamic"
+                    },
+                    arrows: {
+                        to: { enabled: true, scaleFactor: 1 }
+                    }
+                },
+                physics: {
+                    enabled: true,
+                    solver: "forceAtlas2Based"
+                }
+            };
+
+            var network = new vis.Network(container, data, options);
+
+            network.on("click", function(params) {
+                if (params.nodes.length > 0) {
+                    var nodeId = params.nodes[0];
+                    var originalValue = (nodeId === "head") ? headNode : fullNodesArray[nodeId];
+
+                    $clipboard({ content: originalValue, success: $notification({ text: "Address Copied", variant: "info", position: 'center-top' }), error: '' });
+                }
+            });
+        }
+    }
+
+    function shortenAddress(address) {
+        return address.substring(0, 2) + "..." + address.substring(address.length - 2);
+    }
+</script>

@@ -1,0 +1,102 @@
+﻿
+<div class="col-span-12 lg:col-span-2">
+
+</div>
+
+<div id="sybilCheckerButtonSection" class="card group col-span-12 lg:col-span-8">
+    <div class="mt-2 flex h-8 items-center justify-between px-4">
+        <h2 class="text-xl font-semibold text-slate-700 dark:text-navy-100">
+            Check Your Wallet
+        </h2>
+    </div>
+    <div class="card px-4 pb-4 sm:px-5">
+        <div class="max-w-xl resp-checker-input">
+            <div style="margin-bottom: 15px;" class="relative flex -space-x-px mt-5">
+                <input class="form-input peer w-full rounded-l-lg border border-slate-300 bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:z-10 hover:border-slate-400 focus:z-10 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent" id="walletAddress" placeholder="Enter EVM address or ENS" type="text">
+                <button id="checkAddressBtn" class="btn rounded-l-none bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">
+                    Check
+                </button>
+                <div class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 8H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M20.8333 9H18.2308C16.4465 9 15 10.3431 15 12C15 13.6569 16.4465 15 18.2308 15H20.8333C20.9167 15 20.9583 15 20.9935 14.9979C21.5328 14.965 21.9623 14.5662 21.9977 14.0654C22 14.0327 22 13.994 22 13.9167V10.0833C22 10.006 22 9.96726 21.9977 9.9346C21.9623 9.43384 21.5328 9.03496 20.9935 9.00214C20.9583 9 20.9167 9 20.8333 9Z" stroke="currentColor" stroke-width="1.5"></path> <path d="M20.965 9C20.8873 7.1277 20.6366 5.97975 19.8284 5.17157C18.6569 4 16.7712 4 13 4L10 4C6.22876 4 4.34315 4 3.17157 5.17157C2 6.34315 2 8.22876 2 12C2 15.7712 2 17.6569 3.17157 18.8284C4.34315 20 6.22876 20 10 20H13C16.7712 20 18.6569 20 19.8284 18.8284C20.6366 18.0203 20.8873 16.8723 20.965 15" stroke="currentColor" stroke-width="1.5"></path> <path d="M17.9912 12H18.0002" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-span-12 lg:col-span-2">
+
+</div>
+
+<div id="scrollSybilCheckerResultSection" class="col-span-12 lg:col-span-12"></div>
+
+<script>
+    $(document).ready(function() {
+        $("#checkAddressBtn").click(function() {
+
+            let addressInput = $("#walletAddress");
+            let address = addressInput.val().trim();
+
+            let evmRegex = /^0x[a-fA-F0-9]{40}$/;
+            let ensRegex = /^[a-zA-Z0-9-]+\.eth$/;
+
+            if (!address) {
+                $notification({ text: 'Please enter an address.', variant: 'error', position: 'center-top' })
+                return;
+            }
+
+            if (!evmRegex.test(address) && !ensRegex.test(address)) {
+                $notification({ text: 'Invalid address. Enter a valid EVM address or ENS.', variant: 'error', position: 'center-top' })
+                return;
+            }
+
+            $.ajax({
+                url: "/Scroll/Checker",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ address: address }),
+                beforeSend: function() {
+                    $("body").preloader();
+                },
+                success: function(response) {
+                    if (response.success) {
+                        loadCheckerResultViewComponent(response.model)
+                    } else {
+                        $notification({ text: response.message, variant: 'error', position: 'center-top' })
+                    }
+                },
+                error: function() {
+                    $notification({ text: 'Server error. Please try again.', variant: 'error', position: 'center-top' })
+                },
+                complete: function() {
+                    $("body").preloader('remove');
+                }
+            });
+        });
+    });
+
+    function loadCheckerResultViewComponent(model) {
+        $.ajax({
+            url: "/Scroll/PassToScrollSybilCheckerResultStatus",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(model),
+            beforeSend: function() {
+                $("body").preloader();
+            },
+            success: function(result) {
+                $("html, body").animate({
+                    scrollTop: $("#sybilCheckerButtonSection").offset().top - 70
+                }, "slow");
+
+                $("#scrollSybilCheckerResultSection").html(result);
+            },
+            error: function(xhr) {
+                $notification({ text: 'Failed to Load. Unexpected error', variant: 'error', position: 'center-top' })
+            },
+            complete: function() {
+                $("body").preloader('remove');
+            }
+        });
+    }
+</script>
